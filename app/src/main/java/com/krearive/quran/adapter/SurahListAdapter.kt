@@ -1,12 +1,15 @@
 package com.krearive.quran.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.krearive.quran.R
 import com.krearive.quran.databinding.ItemSurahBinding
 import com.krearive.quran.network.SurahResponseItem
+import com.krearive.quran.ui.DetailSurahActivity
 
 class SurahListAdapter :
     PagingDataAdapter<SurahResponseItem, SurahListAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -26,10 +29,15 @@ class SurahListAdapter :
     class MyViewHolder(private val binding: ItemSurahBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: SurahResponseItem) {
-            binding.tvNumber.text = data.nomor
-            binding.tvName.text = data.asma
-            binding.tvSurah.text = data.nama
-            binding.tvInfo.text = "${data.type} - ${data.ayat} Ayat"
+            binding.tvIndex.text = data.index.toString()
+            binding.tvSurah.text = data.latinName
+            binding.tvInfo.text = binding.root.resources.getString(R.string.surah_info, data.type, data.totalAyah)
+            binding.tvName.text = data.arabName
+            binding.root.setOnClickListener {
+                val intent = Intent(it.context, DetailSurahActivity::class.java)
+                intent.putExtra("surah", data)
+                it.context.startActivity(intent)
+            }
         }
     }
 
@@ -40,7 +48,7 @@ class SurahListAdapter :
             }
 
             override fun areContentsTheSame(oldItem: SurahResponseItem, newItem: SurahResponseItem): Boolean {
-                return oldItem.nomor == newItem.nomor
+                return oldItem.index == newItem.index
             }
         }
     }

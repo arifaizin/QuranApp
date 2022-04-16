@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.krearive.quran.network.AyahResponseItem
 import com.krearive.quran.network.SurahResponseItem
 
 @Database(
-    entities = [SurahResponseItem::class, RemoteKeys::class],
+    entities = [SurahResponseItem::class, AyahResponseItem::class, RemoteKeys::class],
     version = 2,
     exportSchema = false
 )

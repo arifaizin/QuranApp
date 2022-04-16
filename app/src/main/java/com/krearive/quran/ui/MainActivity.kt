@@ -11,7 +11,7 @@ import com.krearive.quran.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModels {
+    private val surahViewModel: SurahViewModel by viewModels {
         ViewModelFactory(this)
     }
 
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
                 adapter.retry()
             }
         )
-        mainViewModel.surah.observe(this, {
+        surahViewModel.surah.observe(this) {
             adapter.submitData(lifecycle, it)
-        })
+        }
     }
 }

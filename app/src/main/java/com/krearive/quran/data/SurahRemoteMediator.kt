@@ -60,7 +60,7 @@ class SurahRemoteMediator(
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = responseData.map {
-                    RemoteKeys(id = it.nomor, prevKey = prevKey, nextKey = nextKey)
+                    RemoteKeys(id = it.index, prevKey = prevKey, nextKey = nextKey)
                 }
                 database.remoteKeysDao().insertAll(keys)
                 database.quranDao().insertSurah(responseData)
@@ -73,19 +73,19 @@ class SurahRemoteMediator(
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, SurahResponseItem>): RemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
-            database.remoteKeysDao().getRemoteKeysId(data.nomor)
+            database.remoteKeysDao().getRemoteKeysId(data.index)
         }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, SurahResponseItem>): RemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
-            database.remoteKeysDao().getRemoteKeysId(data.nomor)
+            database.remoteKeysDao().getRemoteKeysId(data.index)
         }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, SurahResponseItem>): RemoteKeys? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.nomor?.let { nomor ->
+            state.closestItemToPosition(position)?.index?.let { nomor ->
                 database.remoteKeysDao().getRemoteKeysId(nomor)
             }
         }
