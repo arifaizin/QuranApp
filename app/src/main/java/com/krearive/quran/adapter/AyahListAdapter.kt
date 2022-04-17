@@ -6,10 +6,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.krearive.quran.databinding.ItemAyahBinding
-import com.krearive.quran.databinding.ItemSurahBinding
 import com.krearive.quran.network.AyahResponseItem
 
-class AyahListAdapter :
+class AyahListAdapter(private val onItemClick: (AyahResponseItem) -> Unit) :
     PagingDataAdapter<AyahResponseItem, AyahListAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -20,16 +19,19 @@ class AyahListAdapter :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = getItem(position)
         if (data != null) {
-            holder.bind(data)
+            holder.bind(data, onItemClick)
         }
     }
 
     class MyViewHolder(private val binding: ItemAyahBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: AyahResponseItem) {
+        fun bind(data: AyahResponseItem, onItemClick: (AyahResponseItem) -> Unit) {
             binding.tvIndex.text = data.index.toString()
             binding.tvAyah.text = data.arabText
             binding.tvTranslation.text = data.translation
+            binding.root.setOnClickListener {
+                onItemClick(data)
+            }
         }
     }
 
