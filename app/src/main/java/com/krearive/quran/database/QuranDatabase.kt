@@ -8,7 +8,7 @@ import com.krearive.quran.network.AyahResponseItem
 import com.krearive.quran.network.SurahResponseItem
 
 @Database(
-    entities = [SurahResponseItem::class, AyahResponseItem::class, RemoteKeys::class],
+    entities = [SurahResponseItem::class, AyahResponseItem::class, LastRead::class, RemoteKeys::class],
     version = 2,
     exportSchema = false
 )

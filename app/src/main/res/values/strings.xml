@@ -2,4 +2,6 @@
     <string name="app_name">Quran</string>
     <string name="retry">Coba lagi</string>
     <string name="surah_info">%1$s - %2$s Ayat</string>
+    <string name="last_read">Tandai terakhir dibaca</string>
+    <string name="share">Share</string>
 </resources>

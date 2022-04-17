@@ -1,10 +1,8 @@
 package com.krearive.quran.database
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.krearive.quran.network.AyahResponseItem
 import com.krearive.quran.network.SurahResponseItem
 
@@ -27,4 +25,11 @@ interface QuranDao {
 
     @Query("DELETE FROM ayah")
     suspend fun deleteAllAyah()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveLastRead(lastRead: LastRead)
+
+    @Transaction
+    @Query("SELECT * from surah")
+    fun getLastReadWithSurah(): LiveData<LastReadWithSurah>
 }
